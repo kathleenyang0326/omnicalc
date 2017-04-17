@@ -99,8 +99,8 @@ class CalculationsController < ApplicationController
     @range = @maximum-@minimum
 
     if @count%2==0
-      number1=@count%2-1
-      number2=@count%2
+      number1=@count/2-1
+      number2=@count/2
       @median=(@sorted_numbers[number1]+@sorted_numbers[number2])/2
     end
 
@@ -109,15 +109,23 @@ class CalculationsController < ApplicationController
       @median=@sorted_numbers[number1]
     end
 
+    @sum = @numbers.sum
 
+    @mean = @sum/@count
 
-    @mean = "Replace this string with your answer."
+    addingvariance=[]
+    @numbers.each do |num|
+      variancenumber=(num-@mean)**2
+      addingvariance.push(variancenumber)
+    end
 
-    @variance = "Replace this string with your answer."
+    @variance = (addingvariance.sum)/@count
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = @variance**0.5
 
-    @mode = "Replace this string with your answer."
+    freq = @numbers.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+
+    @mode = @numbers.max_by { |v| freq[v] }
 
     # ================================================================================
     # Your code goes above.
