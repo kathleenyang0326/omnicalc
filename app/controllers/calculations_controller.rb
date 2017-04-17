@@ -11,19 +11,25 @@ class CalculationsController < ApplicationController
     # ================================================================================
 
 
-    @word_count = "Replace this string with your answer."
+    @word_count = @text.split.count
 
-    @character_count_with_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.length
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @character_count_without_spaces = @text.strip.gsub(/[^a-z0-9\s]/i, "").gsub(" ","").length
 
-    @occurrences = "Replace this string with your answer."
+    @occurrences = @text.gsub(/[^a-z0-9\s]/i, "").downcase.split.count(@special_word.downcase)
 
     # ================================================================================
     # Your code goes above.
     # ================================================================================
 
     render("word_count.html.erb")
+  end
+
+  def payment (r,n,p)
+    r = r / 12 / 100
+    n = n * 12
+    pmt = (p * r * (1 + r)**n)/(((1 + r)**n) - 1)
   end
 
   def loan_payment
@@ -38,7 +44,7 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+    @monthly_payment = payment(@apr,@years,@principal)
 
     # ================================================================================
     # Your code goes above.
@@ -60,12 +66,12 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending-@starting
+    @minutes = @seconds/60.0
+    @hours = @minutes/60.0
+    @days = @hours/24.0
+    @weeks = @days/7.0
+    @years = @seconds/60.0/60.0/24.0/365.0
 
     # ================================================================================
     # Your code goes above.
